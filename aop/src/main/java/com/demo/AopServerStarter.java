@@ -4,9 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+/**
+ * @auther gzhen
+ */
 @SpringBootApplication
 /**
- *
  * exposeProxy = true 可以在方法内部调用再进行增强
  * proxyTargetClass = true 必须使用cglib代理
  */
