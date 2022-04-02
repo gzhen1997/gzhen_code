@@ -15,6 +15,7 @@ public class JdbcConfig {
         /**
          * 将statement对象生成所有的ResultSet对象设置最大行数的限制，
          * 如果查询的结果有100行但是设置最大的行数为10，那么只返回10行的数据
+         *
          */
         jdbcTemplate.setMaxRows(2);
         /**
