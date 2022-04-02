@@ -7,7 +7,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 /**
  *
- * exposeProxy=true 可以在方法内部调用再进行增强 proxyTargetClass=true必须使用cglib代理
+ * exposeProxy = true 可以在方法内部调用再进行增强
+ * proxyTargetClass = true 必须使用cglib代理
  */
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class AopServerStarter {
