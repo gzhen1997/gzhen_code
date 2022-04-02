@@ -6,6 +6,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @auther gzhen
+ * @description 启动类
  */
 @SpringBootApplication
 @EnableAspectJAutoProxy(exposeProxy = true)
