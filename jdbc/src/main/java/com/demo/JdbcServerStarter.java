@@ -9,6 +9,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @description 启动类
  */
 @SpringBootApplication
+/**
+ * exposeProxy = true 可以将方法内部调用进行增强
+ */
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class JdbcServerStarter {
     public static void main(String[] args) {
