@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.Test;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -37,7 +38,11 @@ public class MyBatisTest {
                     .type(DruidDataSource.class)
                     .build();
             JdbcTransactionFactory jdbcTransactionFactory = new JdbcTransactionFactory();
-            Environment environment = new Environment("development", jdbcTransactionFactory, dataSource);
+            Environment environment = new Environment.Builder("dev")
+                    .transactionFactory(jdbcTransactionFactory)
+                    .dataSource(dataSource)
+                    .build();
+//            Environment environment = new Environment("development", jdbcTransactionFactory, dataSource);
             Configuration configuration = new Configuration(environment);
             configuration.addMapper(UserMapper.class);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
@@ -99,6 +104,16 @@ public class MyBatisTest {
         sqlSession.commit();
         sqlSession.close();
 
+    }
+
+    @Test
+    public void testSpringMvc(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserMapper userMapper =(UserMapper) applicationContext.getBean("userMapper");
+        List<User> userList = userMapper.getUser();
+        for (User user : userList) {
+            System.out.println(user);
+        }
     }
 
 

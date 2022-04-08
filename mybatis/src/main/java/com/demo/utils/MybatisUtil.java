@@ -15,7 +15,6 @@ import java.io.Reader;
 
 public class MybatisUtil {
 
-
     private final static SqlSessionFactory SQL_SESSION_FACTORY;
 
     static {

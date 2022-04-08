@@ -1,5 +1,7 @@
 package com.demo;
 
+import com.demo.factory.FactoryUser;
+import com.demo.model.User;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,17 +22,38 @@ import javax.sql.DataSource;
 @SpringBootTest
 public class MybatisServerTest {
 
-    @Resource
-    private DataSource dataSource;
+//    @Resource
+//    private DataSource dataSource;
+//
+//    @Resource
+//    private SqlSessionFactory sqlSessionFactory;
+//
+//    @Test
+//    public void test(){
+//        System.out.println(sqlSessionFactory);
+//        System.out.println(dataSource);
+//    }
 
     @Resource
-    private SqlSessionFactory sqlSessionFactory;
+    private User user;
+
+    @Resource
+    private User user2;
+
+    @Resource(name = "&factoryUser")
+    private FactoryUser factoryUser;
+
+
 
     @Test
-    public void test(){
-        System.out.println(sqlSessionFactory);
-        System.out.println(dataSource);
+    public void test() throws Exception {
+        System.out.println(user);
+        System.out.println(user2);
+        System.out.println(factoryUser.getObject());
+        System.out.println(factoryUser.getObject());
     }
+
+
 
 
 }
