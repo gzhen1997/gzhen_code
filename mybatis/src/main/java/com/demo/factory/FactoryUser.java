@@ -5,13 +5,8 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-/**
- * @auther gz
- * @date 2022-04-08  9:14
- * @description
- */
 @Component
-public class FactoryUser implements FactoryBean<User>, InitializingBean {
+public class FactoryUser implements InitializingBean, FactoryBean<User> {
 
     private User user;
 
@@ -27,6 +22,8 @@ public class FactoryUser implements FactoryBean<User>, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.user = new User("root",23,"nan");
+        if (user == null)
+            this.user = new User("gz",25,"男");
+
     }
 }

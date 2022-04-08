@@ -116,5 +116,15 @@ public class MyBatisTest {
         }
     }
 
+    @Test
+    public void springMybatisTest(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserMapper userMapper =(UserMapper) applicationContext.getBean("userMapper");
+        List<User> userList = userMapper.getUser();
+        for (User user : userList) {
+            System.out.println(user);
+        }
+    }
+
 
 }
