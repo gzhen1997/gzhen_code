@@ -1,6 +1,7 @@
 package com.demo;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.demo.mapper.BBB;
 import com.demo.mapper.UserMapper;
 import com.demo.model.User;
 import com.demo.utils.MybatisUtil;
@@ -13,6 +14,8 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.Test;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.web.context.support.StandardServletEnvironment;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -27,7 +30,7 @@ import java.util.List;
 public class MyBatisTest {
 
     @Test
-    public void test(){
+    public void test() {
         SqlSession sqlSession = null;
         try {
             DataSource dataSource = DataSourceBuilder.create()
@@ -66,7 +69,6 @@ public class MyBatisTest {
     }
 
 
-
     @Test
     public void testJdbc() throws ClassNotFoundException, SQLException {
         Class<?> clazz = Class.forName("com.mysql.cj.jdbc.Driver");
@@ -77,15 +79,15 @@ public class MyBatisTest {
         String sql = "select * from user where id = ?;";
         // 不会产生sql注入的问题
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1,1);
+        preparedStatement.setInt(1, 1);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String name = resultSet.getString("name");
         }
     }
 
     @Test
-    public void testMybatisByConfigFile(){
+    public void testMybatisByConfigFile() {
         SqlSessionFactory sqlSessionFactory = MybatisUtil.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -94,7 +96,7 @@ public class MyBatisTest {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         SqlSessionFactory sqlSessionFactory = MybatisUtil.getSqlSessionFactory();
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
@@ -107,9 +109,12 @@ public class MyBatisTest {
     }
 
     @Test
-    public void testSpringMvc(){
+    public void testSpringMvc() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        UserMapper userMapper =(UserMapper) applicationContext.getBean("userMapper");
+        ConfigurableEnvironment configurableEnvironment = new StandardServletEnvironment();
+
+
+        UserMapper userMapper = (UserMapper) applicationContext.getBean("userMapper");
         List<User> userList = userMapper.getUser();
         for (User user : userList) {
             System.out.println(user);
@@ -117,13 +122,19 @@ public class MyBatisTest {
     }
 
     @Test
-    public void springMybatisTest(){
+    public void springMybatisTest() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        UserMapper userMapper =(UserMapper) applicationContext.getBean("userMapper");
-        List<User> userList = userMapper.getUser();
-        for (User user : userList) {
-            System.out.println(user);
-        }
+
+        BBB bbb = (BBB) applicationContext.getBean("bbb");
+        String aaa = bbb.aaa;
+        System.out.println(aaa);
+
+
+//        UserMapper userMapper =(UserMapper) applicationContext.getBean("userMapper");
+//        List<User> userList = userMapper.getUser();
+//        for (User user : userList) {
+//            System.out.println(user);
+//        }
     }
 
 
