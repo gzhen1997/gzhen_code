@@ -4,34 +4,37 @@ import com.demo.exception.CustException;
 import com.demo.mapper.UserRowMapper;
 import com.demo.model.User;
 import com.demo.service.UserService;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.List;
 
-@Service("userServiceImpl")
-public class UserServiceImpl implements UserService {
 
-    @Autowired
+public class UserServiceImpl2 implements UserService {
+
     private JdbcTemplate jdbcTemplate;
 
+    private DataSource dataSource;
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
 
     @Override
     public void save(User user) throws CustException {
 
-
         jdbcTemplate.update("insert into user(name,age,sex) values (?,?,?);",
                 new Object[]{user.getName(), user.getAge(), user.getSex()},
                 new int[]{Types.VARCHAR, Types.INTEGER, Types.VARCHAR});
         // 普通异常不会回滚
-        throw new CustException("自定义普通异常异常");
+//        throw new CustException("自定义普通异常异常");
 
 //        throw new RuntimeException("自定义运行异常");
 //        ((UserServiceImpl) AopContext.currentProxy()).save2(user);

@@ -1,5 +1,6 @@
 package com.demo;
 
+import com.demo.exception.CustException;
 import com.demo.model.User;
 import com.demo.service.UserService;
 import org.junit.Test;
@@ -19,8 +20,8 @@ public class JdbcServerTest {
     private UserService userServiceImpl;
 
     @Test
-    public void testSave(){
-        User user = new User(null, "admin", 45, "nv");
+    public void testSave() throws CustException {
+        User user = new User(null, "岳不群", 45, "nv");
         userServiceImpl.save(user);
     }
 

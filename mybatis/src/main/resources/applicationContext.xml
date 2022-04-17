@@ -17,8 +17,10 @@
         <property name="locations">
             <list>
                 <value>db.properties</value>
+               <!-- <value>application.properties</value>-->
             </list>
         </property>
+        <property name="properties" ref="yamlHandler"></property>
     </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
@@ -51,4 +53,10 @@
         <property name="annotationClass" value="com.demo.annotation.CustomizeScanner"></property>
         <property name="markerInterface" value="com.demo.maker.ScannerMarkerInterface"></property>
     </bean>
+
+    <bean id="yamlHandler" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
+        <property name="resources" value="application.yml"></property>
+    </bean>
+
+    <bean id="bbb" class="com.demo.mapper.BBB"></bean>
 </beans>
