@@ -7,6 +7,7 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Types;
@@ -18,13 +19,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(User user) {
+
+
         jdbcTemplate.update("insert into user(name,age,sex) values (?,?,?);",
                 new Object[]{user.getName(), user.getAge(), user.getSex()},
                 new int[]{Types.VARCHAR, Types.INTEGER, Types.VARCHAR});
-        ((UserServiceImpl) AopContext.currentProxy()).save2(user);
+        try {
+            ((UserServiceImpl) AopContext.currentProxy()).save2(user);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
@@ -34,11 +43,14 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.NESTED)
     @Override
     public void save2(User user) {
         jdbcTemplate.update("insert into user(name,age,sex) values (?,?,?);",
-                new Object[]{user.getName(), user.getAge(), user.getSex()},
+                new Object[]{user.getName() + 12, user.getAge(), user.getSex()},
                 new int[]{Types.VARCHAR, Types.INTEGER, Types.VARCHAR});
+
+
+        throw new RuntimeException("自定义异常00");
     }
 }

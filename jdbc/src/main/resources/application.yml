@@ -5,6 +5,6 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: 123456
-    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=GMT%2B8
-    username: root
+    password: gz
+    url: jdbc:mysql://gzhen:3306/mybatis?serverTimezone=GMT%2B8
+    username: gz
