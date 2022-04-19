@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 public class JdbcConfig {
 
     @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         /**
          * 将statement对象生成所有的ResultSet对象设置最大行数的限制，

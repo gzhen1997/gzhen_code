@@ -27,8 +27,6 @@ public class RabbitmqConfig {
     private Environment environment;
 
 
-
-
     @Autowired
     private CachingConnectionFactory connectionFactory;
 

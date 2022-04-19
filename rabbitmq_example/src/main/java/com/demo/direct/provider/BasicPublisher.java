@@ -39,13 +39,13 @@ public class BasicPublisher {
                 rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
                 rabbitTemplate.setExchange(DirectExchangeConfig.EXCHANGE_NAME);
                 rabbitTemplate.setRoutingKey(DirectExchangeConfig.ROUTING_KEY);
-                Message msg = MessageBuilder
-                        .withBody(objectMapper.writeValueAsString(message.getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8))
-                        .build();
-//              序列化方式和上面配置的序列化方式不一致，这个默认使用的是jdk的序列化方式，而上面指定的是Jackson的序列化方式
 //                Message msg = MessageBuilder
-//                        .withBody(message.getBytes(StandardCharsets.UTF_8))
+//                        .withBody(objectMapper.writeValueAsString(message.getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8))
 //                        .build();
+//              序列化方式和上面配置的序列化方式不一致，这个默认使用的是jdk的序列化方式，而上面指定的是Jackson的序列化方式
+                Message msg = MessageBuilder
+                        .withBody(message.getBytes(StandardCharsets.UTF_8))
+                        .build();
 //                rabbitTemplate.convertAndSend(msg);
                 rabbitTemplate.convertAndSend(msg);
             } catch (Exception e) {

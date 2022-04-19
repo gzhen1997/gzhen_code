@@ -4,12 +4,9 @@ import com.demo.exception.CustException;
 import com.demo.mapper.UserRowMapper;
 import com.demo.model.User;
 import com.demo.service.UserService;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Types;
 import java.util.List;
