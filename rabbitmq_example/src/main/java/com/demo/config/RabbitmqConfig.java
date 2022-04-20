@@ -1,13 +1,16 @@
 package com.demo.config;
 
+import com.demo.direct.consumer.KnowledgeManualConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +56,64 @@ public class RabbitmqConfig {
         return factory;
     }
 
+    /**
+     * 单一消费者实例消费自动ack
+     *
+     * @return 单一mq的监听工厂
+     */
+    @Bean(name = "singleListenerContainerAutoAck")
+    public SimpleRabbitListenerContainerFactory singleListenerContainerAck() {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        // 设置并发消费者实例的初始化数量
+        factory.setConcurrentConsumers(1);
+        // 设置并发消费者实例的最大数量
+        factory.setMaxConcurrentConsumers(1);
+        // 设置每个消费者拉取消息的个数
+        factory.setPrefetchCount(1);
+        // 设置下消费者自动应答机制
+        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        return factory;
+    }
+
+     /**
+     * 单一消费者实例消费自动ack
+     *
+     * @return 单一mq的监听工厂
+     */
+    @Bean(name = "singleListenerContainerManual")
+    public SimpleRabbitListenerContainerFactory singleListenerContainerManual() {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        // 设置并发消费者实例的初始化数量
+        factory.setConcurrentConsumers(1);
+        // 设置并发消费者实例的最大数量
+        factory.setMaxConcurrentConsumers(1);
+        // 设置每个消费者拉取消息的个数
+        factory.setPrefetchCount(1);
+        // 设置下消费者自动应答机制
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        return factory;
+    }
+
+
+//    @Bean
+//    public SimpleMessageListenerContainer simpleMessageListenerContainer(
+//            @Qualifier("basicQueue") Queue queue,
+//            @Qualifier("knowledgeManualConsumer") KnowledgeManualConsumer knowledgeManualConsumer
+//    ) {
+//        SimpleMessageListenerContainer listenerContainer = new SimpleMessageListenerContainer();
+//        listenerContainer.setConnectionFactory(connectionFactory);
+//        listenerContainer.setMaxConcurrentConsumers(1);
+//        listenerContainer.setConcurrentConsumers(1);
+//        listenerContainer.setPrefetchCount(1);
+//        listenerContainer.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+//        listenerContainer.setQueues(queue);
+//        listenerContainer.setMessageListener(knowledgeManualConsumer);
+//        return listenerContainer;
+//    }
 
     /**
      * 多个消费者的实例配置
@@ -82,7 +143,8 @@ public class RabbitmqConfig {
 //        connectionFactory.setPublisherConfirms(true);
         // 发送消息后返回确认信息
         connectionFactory.setPublisherReturns(true);
-
+        // 消费者确认默认开启
+        connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
 
         // 构建发送消息组件实例对象
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);

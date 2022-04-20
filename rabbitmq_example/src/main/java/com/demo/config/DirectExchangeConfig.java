@@ -2,12 +2,14 @@ package com.demo.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @auther gz
  * @date 2022-04-17  23:03
  * @description DirectExchange配置类
  */
+@Configuration
 public class DirectExchangeConfig {
 
 

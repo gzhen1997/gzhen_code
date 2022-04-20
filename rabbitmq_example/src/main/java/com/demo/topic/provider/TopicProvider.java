@@ -2,6 +2,7 @@ package com.demo.topic.provider;
 
 import com.demo.config.RabbitmqConfig;
 import com.demo.config.TopicExchangeConfig;
+import com.demo.dto.UserLoginDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
@@ -37,6 +38,19 @@ public class TopicProvider {
             rabbitTemplate.setRoutingKey(routingKey);
             log.info("routingKey：({})，发送的消息为：({})", msg, routingKey);
             rabbitTemplate.convertAndSend(msg);
+        } catch (AmqpException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void sendMsgObject(UserLoginDto userLoginDto) {
+        try {
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setRoutingKey("user.login.topic");
+            rabbitTemplate.setExchange(TopicExchangeConfig.EXCHANGE_NAME);
+            rabbitTemplate.convertAndSend(userLoginDto);
+            log.info("消息发送成功，消息为({})", userLoginDto);
         } catch (AmqpException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package com.demo.direct.provider;
 
 import com.demo.config.DirectExchangeConfig;
+import com.demo.model.KnowledgeInfo;
 import com.demo.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,14 +40,13 @@ public class BasicPublisher {
                 rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
                 rabbitTemplate.setExchange(DirectExchangeConfig.EXCHANGE_NAME);
                 rabbitTemplate.setRoutingKey(DirectExchangeConfig.ROUTING_KEY);
-//                Message msg = MessageBuilder
-//                        .withBody(objectMapper.writeValueAsString(message.getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8))
-//                        .build();
-//              序列化方式和上面配置的序列化方式不一致，这个默认使用的是jdk的序列化方式，而上面指定的是Jackson的序列化方式
                 Message msg = MessageBuilder
-                        .withBody(message.getBytes(StandardCharsets.UTF_8))
+                        .withBody(objectMapper.writeValueAsString(message.getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8))
                         .build();
-//                rabbitTemplate.convertAndSend(msg);
+//              序列化方式和上面配置的序列化方式不一致，这个默认使用的是jdk的序列化方式，而上面指定的是Jackson的序列化方式
+//                Message msg = MessageBuilder
+//                        .withBody(message.getBytes(StandardCharsets.UTF_8))
+//                        .build();
                 rabbitTemplate.convertAndSend(msg);
             } catch (Exception e) {
                 log.error("发送信息异常,cause({})", e.getMessage());
@@ -67,6 +67,46 @@ public class BasicPublisher {
                 messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                 // 设置消息类型
                 messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, Person.class);
+                return message;
+            });
+        } catch (Exception e) {
+            log.error("发送信息异常,cause({})", e.getMessage());
+        }
+    }
+
+
+    public void sendObjectMsg2(KnowledgeInfo knowledgeInfo) {
+        try {
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange(DirectExchangeConfig.EXCHANGE_NAME);
+            rabbitTemplate.setRoutingKey(DirectExchangeConfig.ROUTING_KEY);
+            Message msg = MessageBuilder.withBody(objectMapper.writeValueAsBytes(knowledgeInfo)).build();
+            rabbitTemplate.convertAndSend(msg, message -> {
+                MessageProperties messageProperties = message.getMessageProperties();
+                // 设置持久化方式
+                messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                // 设置消息类型
+                messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, KnowledgeInfo.class);
+                return message;
+            });
+        } catch (Exception e) {
+            log.error("发送信息异常,cause({})", e.getMessage());
+        }
+    }
+
+
+    public void sendObjectMsg3(KnowledgeInfo knowledgeInfo) {
+        try {
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange("normalDirectExchange");
+            rabbitTemplate.setRoutingKey("normal.key");
+            Message msg = MessageBuilder.withBody(objectMapper.writeValueAsBytes(knowledgeInfo)).build();
+            rabbitTemplate.convertAndSend(msg, message -> {
+                MessageProperties messageProperties = message.getMessageProperties();
+                // 设置持久化方式
+                messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                // 设置消息类型
+                messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, KnowledgeInfo.class);
                 return message;
             });
         } catch (Exception e) {

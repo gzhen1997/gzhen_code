@@ -1,11 +1,13 @@
 package com.demo;
 
 import com.demo.fanout.provider.FanoutProvider;
+import com.demo.model.KnowledgeInfo;
 import com.demo.model.Person;
 import com.demo.direct.provider.BasicPublisher;
 import com.demo.spring.provider.Provider;
 import com.demo.topic.provider.TopicProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mysql.cj.util.TimeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,18 @@ public class RabbitmqTest {
         topicProvider.sendMsg("I am is student", "topic");
     }
 
+    @Test
+    public void test6() {
+        KnowledgeInfo knowledgeInfo = new KnowledgeInfo(123, "AUTO", "1001");
+        basicPublisher.sendObjectMsg2(knowledgeInfo);
+    }
+
+    @Test
+    public void test7() throws InterruptedException {
+        KnowledgeInfo knowledgeInfo = new KnowledgeInfo(123, "MANUAL", "1002");
+        basicPublisher.sendObjectMsg3(knowledgeInfo);
+        Thread.sleep(20000);
+    }
 
     @Test
     public void testEvent() {
