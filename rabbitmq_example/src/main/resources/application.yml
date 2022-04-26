@@ -4,6 +4,10 @@ server:
 
 spring:
   rabbitmq:
+#    listener:
+#      simple:
+#        acknowledge-mode: manual
+#        prefetch: 1
     virtual-host: /
     host: gzhen
     port: 5672

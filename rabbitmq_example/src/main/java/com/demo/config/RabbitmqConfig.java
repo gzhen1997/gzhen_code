@@ -11,6 +11,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -166,7 +167,6 @@ public class RabbitmqConfig {
         });
         // 如果不配置Mandatory的话 returnCallback()回调方法不生效
         rabbitTemplate.setMandatory(true);
-
         return rabbitTemplate;
 
     }
