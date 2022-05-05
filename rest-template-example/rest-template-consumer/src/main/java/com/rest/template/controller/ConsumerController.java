@@ -44,7 +44,7 @@ public class ConsumerController {
     public String consumer2(@PathVariable(name = "username") String username) {
         String url = "http://localhost:9200/provider/{name}/{pwd}";
         Map<String, String> map = new HashMap<>();
-        map.put("name", "root");
+        map.put("name", username);
         map.put("pwd", "123456");
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, map);
         HttpHeaders headers = response.getHeaders();

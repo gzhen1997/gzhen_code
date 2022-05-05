@@ -45,8 +45,7 @@
              processPropertyPlaceHolders必须开启
              由于在加载MapperScannerConfigurer继承
              BeanDefinitionRegistryPostProcessor
-             在项目启动的时候就会被加载并且比BeanFactoryProcessors
-             的调用要早
+             在项目启动的时候就会被加载并且比BeanFactoryPostProcessor的调用要早
         -->
         <property name="basePackage" value="${basePackage}"></property>
         <property name="processPropertyPlaceHolders" value="true"></property>

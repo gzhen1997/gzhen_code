@@ -1,0 +1,22 @@
+server:
+  port: 9200
+spring:
+  application:
+    name: zipkin-sleuth-user
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        password: nacos
+        username: nacos
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug
+  file:
+    name: d:/abc/zipkin_sleuth_user.log
+#feign:
+#  client:
+#    config:
+#      default:  # 服务名称
+#        requestInterceptors: com.zipkinsleuth.user.intercepter.CustReqInterceptor

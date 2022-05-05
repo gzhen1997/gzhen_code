@@ -1,0 +1,26 @@
+server:
+  port: 9100
+
+# 配置文件加载顺序
+# 1. jar同级 conf/application.yml
+# 2. jar同级 application.yml
+# 3. resources 下config/application.yml
+# 4. resources 下application.yml
+
+### -------------------spring-boot-start-logging-----------------------------------
+logging:
+  file:
+    max-history: 30
+    max-size: 10MB
+    name: d:/abc/test-logger-config.log
+    clean-history-on-start: true
+  level:
+    # 指定系统默认的日志级别   error>warn>info>debug>trace
+    root: info
+    com.logger.controller: debug
+  pattern:
+#    file: '%date %-5level --- [%thread] %logger{36}   : %msg%n'
+    console: '%date{yyyy-MM-dd} %-5level --- [%thread] %logger{100}   : %msg%n'
+spring:
+  application:
+    name: test-example
