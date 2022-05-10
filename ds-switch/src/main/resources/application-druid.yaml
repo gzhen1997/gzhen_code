@@ -1,0 +1,75 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    ds:
+      # 主库数据源，默认 master 不能变
+      master:
+        url: jdbc:mysql://127.0.0.1:3306/ds1?useUnicode=true&characterEncoding=utf8mb4&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+      # 从库数据源
+      slave:
+        url: jdbc:mysql://127.0.0.1:3306/ds2?useUnicode=true&characterEncoding=utf8mb4&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+    druid:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 启用 WebStatFilter
+      webStatFilter:
+        enabled: true
+        # 排除一些不必要的 url，这些 URL 不会涉及到 SQL 查询
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        # 配置拦截规则
+        url-pattern: /*
+        # 开启 session 统计功能
+        session-stat-enable: true
+        # 缺省 sessionStatMaxCount 是 1000 个，我们可以按需要进行配置
+        session-stat-max-count: 1000
+        # 配置 principalSessionName，使得 druid 能够知道当前的 session 的用户是谁
+        # 根据需要，这个参数的值是 user 信息保存在 session 中的 sessionName
+#        principal-cookie-name:
+        # 开启 profile 后就能够监控单个 URL 地址调用列表
+        # profile-enable=
+      # 启用内置的监控页面
+      statViewServlet:
+        enabled: true
+        # 白名单（如果allow没有配置或者为空，则允许所有访问）
+        allow: 127.0.0.1
+        # 黑名单（deny 优先于 allow，如果在 deny 列表中，就算在 allow 列表中，也会被拒绝）
+#        deny:
+        # 内置监控页面的地址
+        url-pattern: /druid/*
+        # 开启 Reset All 功能  需要注意的是，reset-enable 属性即使设置为 false，重置按钮也会显示，只是点击该按钮并不会重置而已。
+        reset-enable: true
+        # 控制台管理用户名和密码
+        login-username: gzhen
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true

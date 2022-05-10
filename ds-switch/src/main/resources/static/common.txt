@@ -1,0 +1,9 @@
+init : function() {
+    # 众人
+    this.buildFooter();
+    druid.lang.init();
+},
+buildFooter : function() {
+    var html ='';
+    $(document.body).append(html);
+}
