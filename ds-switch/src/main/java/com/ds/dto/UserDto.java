@@ -17,7 +17,7 @@ public class UserDto implements Serializable {
 
     private String pwd;
 
-    private Date createTime = new Date();
+    private Date createTime;
 
 
     public long getId() {

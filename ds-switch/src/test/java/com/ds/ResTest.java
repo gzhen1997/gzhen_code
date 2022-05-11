@@ -23,4 +23,9 @@ public class ResTest {
                         "");
         System.out.println(replace);
     }
+
+    @Test
+    public void annoTest(){
+//        AnnotationUtils.findAnnotation()
+    }
 }

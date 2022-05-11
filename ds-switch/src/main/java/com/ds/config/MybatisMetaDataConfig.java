@@ -2,6 +2,7 @@ package com.ds.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import java.util.Date;
  * @date 2022-05-11  14:23
  * @description
  */
-//@Configuration
+@Configuration
 public class MybatisMetaDataConfig implements MetaObjectHandler {
 
     @Override
