@@ -8,6 +8,7 @@ import com.ds.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @auther gz
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @DataSource(value = "slave")
+    @Transactional
     @Override
     public void insert(UserDto userDto) {
         User user = new User();
