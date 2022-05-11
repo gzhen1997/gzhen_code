@@ -52,10 +52,13 @@ public class DataSourceAspect {
      */
     public DataSource getDataSource(ProceedingJoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
+        // 先查找方法上的@DataSource注解
         DataSource dataSource = AnnotationUtils.findAnnotation(signature.getMethod(), DataSource.class);
+
         if (Objects.nonNull(dataSource)) {
             return dataSource;
         }
+        // 最后查找类上的@DataSource注解
         return AnnotationUtils.findAnnotation(signature.getDeclaringType(), DataSource.class);
     }
 }
