@@ -1,5 +1,6 @@
 package com.ds;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,8 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  */
 @SpringBootApplication
+@MapperScan("com.ds.mapper")
 public class DSServerStarter {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         SpringApplication.run(DSServerStarter.class, args);
     }
 }

@@ -1,7 +1,9 @@
 package com.ds;
 
+import com.ds.ds.impl.YamlDynamicDataSourceProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,8 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class DSTest {
 
-    @Test
-    public void test(){
+    @Autowired
+    private YamlDynamicDataSourceProvider dataSourceProvider;
 
+    @Test
+    public void test() {
+        dataSourceProvider.loadDataSources();
     }
 }
