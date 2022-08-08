@@ -1,0 +1,36 @@
+server:
+  port: 9100
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    platform: h2
+    schema: classpath*:h2/schema.sql
+    data: classpath*:h2/data.sql
+
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: localhost:3306/mybatis?serverTimezone=GMT%2B8
+#    username: root
+#    password: 123456
+logging:
+  level:
+    root: info
+    org.hibernate: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true

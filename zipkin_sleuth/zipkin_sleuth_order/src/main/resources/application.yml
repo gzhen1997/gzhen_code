@@ -9,6 +9,16 @@ spring:
         server-addr: localhost:8848
         password: nacos
         username: nacos
+  zipkin:
+    base-url: http://gzhen:9411
+    # 关闭服务发现，否则 Spring Cloud 会把 zipkin 的 URL 当作服务名称。
+    discovery-client-enabled: false
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      # 设置采样率为 100 %，默认为 0.1（10%）
+      probability: 1
 logging:
   level:
     org.springframework.cloud.openfeign: debug
